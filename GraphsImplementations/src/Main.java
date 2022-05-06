@@ -73,14 +73,14 @@ public class Main {
 			case 7: System.out.println("\n"+"*********************************************************************************************************************************");
 					System.out.println("\n"+"\t\t\t\tDijkstra's Algorithm\t\t\t\t\t\t\t\t\t\t");
 					System.out.println("\n"+"*********************************************************************************************************************************");
-					DijkstraAlgorithm(false); // Exit the system
+					DA(false); // Exit the system
 					break;
 					
 			case 8: System.out.println("\n"+"*********************************************************************************************************************************");
 	    			System.out.println("\n"+"\t\t\t\tExperimental Analysis Shortest Path - Dijkstra’s\t\t\t\t\t\t\t\t\t\t");
 	    			System.out.println("\n"+"*********************************************************************************************************************************");
 
-	    			DijkstraAlgorithm(true); 
+	    			DA(true); 
 					break;
 		
 			case 9: System.out.println("Process Completed, System Exiting!");
@@ -106,13 +106,12 @@ public class Main {
 	}
 	
 	/***
-	 * This method calls the breadthFirstSearch method in GraphImplementation class
+	 * This is a helper method which calls the breadthFirstSearch method in GraphImplementation class
 	 * @param isExperimentalAnalysis : Flag is true if its experimental analysis
 	 */
 	public static void BFS(boolean isExperimentalAnalysis) {
 		
 		int numberOfIterations = isExperimentalAnalysis? 5:1;//For experimental analysis number of iterations is 5 else 1
-		GraphImplementation graphImplementation = new GraphImplementation(); // object of GraphImplementation class
 		ArrayList<ArrayList<GraphEdge>> graphVertices = buildGraph(); // build the graph
 		long timeForBFS = 0; // time taken to run the BFS algorithm
 		int[] verticeSize = new int[] {50,104,158,212,266}; //The number of vertices processed per run
@@ -129,7 +128,7 @@ public class Main {
 			for(int j = 0; j<numberOfIterations; j++) {
 				long startTimeBFS = System.nanoTime(); // start time for BFS
 				//Call the breadthFirstSearch algorithm
-				graphImplementation.breadthFirstSearch(listForTheRun, 3,isExperimentalAnalysis);
+				GraphImplementation.breadthFirstSearch(listForTheRun, 3,isExperimentalAnalysis);
 				long endTimeBFS = System.nanoTime();// end time for BFS
 				timeForBFS += endTimeBFS - startTimeBFS; //Summed time for each iteration
 			}
@@ -141,7 +140,7 @@ public class Main {
 	}
 	
 	/***
-	 * 
+	 This is a helper method which calls the depthFirstSearch method in GraphImplementation class
 	 * @param isExperimentalAnalysis : Flag is true if its experimental analysis
 	 */
 	
@@ -149,7 +148,6 @@ public class Main {
 		
 		int numberOfIterations = isExperimentalAnalysis? 5:1;//For experimental analysis number of iterations is 5 else 1
 		long timeForDFS = 0;//time taken to run the DFS algorithm
-		GraphImplementation graphImplementation = new GraphImplementation();// object of GraphImplementation class
 		ArrayList<ArrayList<GraphEdge>> graphVertices = buildGraph();//build the graph
 		
 		//Print timing only for the experimental analysis
@@ -167,7 +165,7 @@ public class Main {
 			for(int j = 0; j<numberOfIterations; j++) {
 				long startTimeDFS = System.nanoTime();//start time for DFS
 				//Run the depthFirstSearch algorithm 5 times over the same data
-				graphImplementation.depthFirstSearch(listForTheRun, 3,isExperimentalAnalysis);
+				GraphImplementation.depthFirstSearch(listForTheRun, 3,isExperimentalAnalysis);
 				long endTimeDFS = System.nanoTime(); //end time for DFS
 				timeForDFS += endTimeDFS - startTimeDFS;//Summed time for each iteration
 			}
@@ -213,7 +211,7 @@ public class Main {
 	}
 	
 	/***
-	 * This method prints the graph
+	 * This is a helper method which calls the printGraph method in GraphImplementation class
 	 * @param graphVertices
 	 */
 	public static void printGraph(ArrayList<ArrayList<GraphEdge>> graphVertices) {
@@ -226,10 +224,9 @@ public class Main {
 	 * Helper method to call the Dijkstras algorithm for shortest path calculation
 	 * @param isExperimentalAnalysis : true if it is experimental analysis false otherwises
 	 */
-	public static void  DijkstraAlgorithm(boolean isExperimentalAnalysis) {
+	public static void  DA(boolean isExperimentalAnalysis) {
 		int numberOfIterations = isExperimentalAnalysis? 5:1;//For experimental analysis number of iterations is 5 else 1
 		long timeForDA = 0;//time taken to run the Dijkstra's algorithm for shortest path
-		GraphImplementation graphImplementation = new GraphImplementation();// object of GraphImplementation class
 		ArrayList<ArrayList<GraphEdge>> graphVertices = buildGraph();//build the graph
 		
 		//Print timing only for the experimental analysis
@@ -247,7 +244,7 @@ public class Main {
 			//For each consecutive iteration incrementally add new nodes
 			for(int j = 0; j<numberOfIterations; j++) {
 				long startTimeDA = System.nanoTime();//start time for Dijkstra's algorithm
-				graphImplementation.DA(listForTheRun,isExperimentalAnalysis,7);// call the Dijkstra's algorithm
+				GraphImplementation.dijkstraAlgorithm(listForTheRun,isExperimentalAnalysis,7);// call the Dijkstra's algorithm
 				long endTimeDA = System.nanoTime();//start time for Dijkstra's algorithm
 				timeForDA += endTimeDA  - startTimeDA;//Summed time for each iteration
 			}

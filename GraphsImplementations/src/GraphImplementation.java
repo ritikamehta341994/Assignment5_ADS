@@ -147,7 +147,7 @@ public class GraphImplementation implements Graph{
 	 * @param graphVertices
 	 * @param isExperimentalAnalysis
 	 */
-	public static void DA(ArrayList<ArrayList<GraphEdge>> graphVertices,boolean isExperimentalAnalysis,int source) {
+	public static void dijkstraAlgorithm(ArrayList<ArrayList<GraphEdge>> graphVertices,boolean isExperimentalAnalysis,int source) {
 		
 		int numberOfVertices = graphVertices.size(); // initialize the number of vertices in the graph 
 		
