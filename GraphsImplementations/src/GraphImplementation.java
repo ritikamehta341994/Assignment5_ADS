@@ -141,7 +141,103 @@ public class GraphImplementation implements Graph{
 	}
 	
 	
+	/**
+	 * This method implements the Dijkstra's algorithm for shortest path calculation from source node to every other node
+	 * We use the priority queue implementation
+	 * @param graphVertices
+	 * @param isExperimentalAnalysis
+	 */
+	public static void DA(ArrayList<ArrayList<GraphEdge>> graphVertices,boolean isExperimentalAnalysis,int source) {
+		
+		int numberOfVertices = graphVertices.size(); // initialize the number of vertices in the graph 
+		
+		PriorityQueue<GraphEdge> pq = new PriorityQueue<>(numberOfVertices,new GraphEdge()); // initialize the priority queue
+				
+		Set<GraphEdge> settled = new HashSet<>(); // set to track the vertices which has been visited and parsed
+				
+		int distance[] = new int[graphVertices.size()];// array storing the shortest distance of every vertex from the source vertex
+		
+		//initialise the distance array to store the maximum value
+		for(int i=0;i<distance.length;i++) 
+			distance[i] = Integer.MAX_VALUE;
+		
+		//distance between the source and itself is set to 0
+		distance[source] = 0;
+		
+		//Add source node to the priority queue
+		pq.add(new GraphEdge(-1, source, 0));
+		
+		//Keep traversing as long as all the vertices hae been visited
+		while(settled.size()!=numberOfVertices) {
+			
+			//Exit the method when the priority queue is empty
+			if(pq.isEmpty())
+				return;
+			
+			//Remove the minimum distance node from the priority queue
+			GraphEdge vertex = pq.remove();
+			
+			//Process the neighboring vertices if they have not been traversed
+			if(settled.contains(vertex))
+				continue;
+			settled.add(vertex);
+			
+			processNeighborsOfVertex(vertex,graphVertices,settled,distance,pq,source);
+			
+		}
+		//Print the shortest distance information from the source vertex for every vertex in the graph 
+		if(!isExperimentalAnalysis) {
+			System.out.println("The shorted path from source vertex : "+source);
+	        
+			for (int i = 0; i < distance.length; i++)
+				if(distance[i] != Integer.MAX_VALUE)
+					System.out.println(source + " to " + i + " is "
+	                             + distance[i]);
+		}
+		
+
+	}
 	
+	/**
+	 * This method processes the neighbors of the passed vertex and updates the minimum distance of the vertex from the source
+	 * @param vertex
+	 * @param graph
+	 * @param settled
+	 * @param dist
+	 * @param pq
+	 * @param source
+	 */
+	public static void processNeighborsOfVertex(GraphEdge vertex,
+			ArrayList<ArrayList<GraphEdge>> graph,
+			Set<GraphEdge> settled,
+			int[] dist,
+			PriorityQueue<GraphEdge> pq,int source) {
+		int edgeDist = 0; // initialise the edge distance
+		int newDist = 0; // initialise the weight distance
+		
+		 // Traverse all the neighbors of the input vertex
+        for (int i = 0; i < graph.get(vertex.getDestination()).size(); i++) {
+            GraphEdge vertexToProcess = graph.get(vertex.getDestination()).get(i);
+ 
+            // If the vertex has not been processed
+            if (!settled.contains(vertexToProcess)) {
+            	//fetch its edge weight
+            	edgeDist = vertexToProcess.getWeight();
+            	//Sum up the edge weight with the current weight of the vertex in distance matrix
+            	newDist = dist[vertex.getDestination()] + edgeDist;
+ 
+                // If new distance is less than the existing one, update the same
+                if (newDist < dist[vertexToProcess.getDestination()])
+                    dist[vertexToProcess.getDestination()] = newDist;
+ 
+                // Add the current node to the queue
+                pq.add(new GraphEdge(-1,vertexToProcess.getDestination(), dist[vertexToProcess.getDestination()]));
+            }
+        }
+
+        
+                
+	}
 
 
 }
